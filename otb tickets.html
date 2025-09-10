@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎟 Online Ticket Booking System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(90deg, #007BFF, #0056b3);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn {
+      background: #007BFF;
+      color: white;
+      padding: 12px 18px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .content {
+      display: none;
+      width: 80%;
+      max-width: 800px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .content h2 {
+      color: #007BFF;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      margin: 10px 0;
+    }
+    select, input {
+      padding: 10px;
+      width: 60%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+    .book-btn {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .book-btn:hover {
+      background: #1e7e34;
+    }
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>🎟 Online Ticket Booking System</header>
+
+  <nav>
+    <button class="btn" onclick="showContent('movies')">Movies</button>
+    <button class="btn" onclick="showContent('travel')">Travel</button>
+    <button class="btn" onclick="showContent('food')">Food</button>
+    <button class="btn" onclick="showContent('sports')">Sports</button>
+  </nav>
+
+  <div class="container">
+    <!-- Movies -->
+    <div id="movies" class="content">
+      <h2>🎬 Book Movie Tickets</h2>
+      <div class="form-group">
+        <label>Choose Movie Type:</label><br>
+        <select id="movieType">
+          <option>Comedy</option>
+          <option>Romantic</option>
+          <option>Action</option>
+          <option>Horror</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>No. of Tickets:</label><br>
+        <input type="number" id="movieTickets" min="1" max="10" value="1">
+      </div>
+      <button class="book-btn" onclick="bookTicket('movie')">Book Now</button>
+      <div class="message" id="movieMsg"></div>
+    </div>
+
+    <!-- Travel -->
+    <div id="travel" class="content">
+      <h2>🚌🚆✈ Book Travel Tickets</h2>
+      <div class="form-group">
+        <label>Choose Travel Mode:</label><br>
+        <select id="travelType">
+          <option>Bus</option>
+          <option>Train</option>
+          <option>Flight</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>No. of Tickets:</label><br>
+        <input type="number" id="travelTickets" min="1" max="10" value="1">
+      </div>
+      <button class="book-btn" onclick="bookTicket('travel')">Book Now</button>
+      <div class="message" id="travelMsg"></div>
+    </div>
+
+    <!-- Food -->
+    <div id="food" class="content">
+      <h2>🍔 Order Food</h2>
+      <div class="form-group">
+        <label>Choose Item:</label><br>
+        <select id="foodType">
+          <option>Popcorn</option>
+          <option>Snacks</option>
+          <option>Drinks</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quantity:</label><br>
+        <input type="number" id="foodTickets" min="1" max="10" value="1">
+      </div>
+      <button class="book-btn" onclick="bookTicket('food')">Order Now</button>
+      <div class="message" id="foodMsg"></div>
+    </div>
+
+    <!-- Sports -->
+    <div id="sports" class="content">
+      <h2>🏆 Book Sports Tickets</h2>
+      <div class="form-group">
+        <label>Choose Sport:</label><br>
+        <select id="sportType">
+          <option>Cricket</option>
+          <option>Football</option>
+          <option>Tennis</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>No. of Tickets:</label><br>
+        <input type="number" id="sportTickets" min="1" max="10" value="1">
+      </div>
+      <button class="book-btn" onclick="bookTicket('sports')">Book Now</button>
+      <div class="message" id="sportsMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    function showContent(sectionId) {
+      const sections = document.querySelectorAll('.content');
+      sections.forEach(sec => sec.style.display = 'none');
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
+    function bookTicket(type) {
+      let item, tickets, msgBox;
+
+      if (type === 'movie') {
+        item = document.getElementById('movieType').value;
+        tickets = document.getElementById('movieTickets').value;
+        msgBox = document.getElementById('movieMsg');
+      } else if (type === 'travel') {
+        item = document.getElementById('travelType').value;
+        tickets = document.getElementById('travelTickets').value;
+        msgBox = document.getElementById('travelMsg');
+      } else if (type === 'food') {
+        item = document.getElementById('foodType').value;
+        tickets = document.getElementById('foodTickets').value;
+        msgBox = document.getElementById('foodMsg');
+      } else if (type === 'sports') {
+        item = document.getElementById('sportType').value;
+        tickets = document.getElementById('sportTickets').value;
+        msgBox = document.getElementById('sportsMsg');
+      }
+
+      msgBox.innerHTML = ✅ Successfully booked ${tickets} ${type === 'food' ? 'item(s) of' : 'ticket(s) for'} ${item}.;
+    }
+  </script>
+
+</body>
+</html>
